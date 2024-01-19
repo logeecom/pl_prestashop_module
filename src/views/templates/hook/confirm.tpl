@@ -153,7 +153,7 @@
         let selectBtn = document.getElementById('pl-dropoff-button');
         let confirmMask = document.getElementById('pl-confirm-mask');
         let configuration = JSON.parse(
-            '{$configuration|json_encode|escape:'htmlall':'UTF-8'|htmlspecialchars_decode:3}'
+            '{$configuration|json_encode|escape:'htmlall':'UTF-8'|custom_htmlspecialchars_decode:3}'
                 .replace(/&quot;/g, '"')
                 .replace(/&amp;/g, '&')
         );

@@ -27,46 +27,40 @@
         <div class="pl-modal-close-button">
           <i class="material-icons">close</i>
         </div>
-        <div class="pl-modal-title">
-
-        </div>
-        <div class="pl-modal-body">
-
-        </div>
-        <div class="pl-modal-footer">
-        </div>
+        <div class="pl-modal-title"></div>
+        <div class="pl-modal-body"></div>
+        <div class="pl-modal-footer"></div>
       </div>
     </div>
   </template>
 
   <template id="pl-error-template">
-    <div class="pl-error-message" data-pl-element="error">
-    </div>
+    <div class="pl-error-message" data-pl-element="error"></div>
   </template>
 </div>
 
 <script type="text/javascript" src="{$gridResizerScript}"></script>
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        Packlink.translations = {
-            default: {$lang['default']|escape:'htmlall':'UTF-8'|htmlspecialchars_decode:3},
-            current: {$lang['current']|escape:'htmlall':'UTF-8'|htmlspecialchars_decode:3}
-        };
+  document.addEventListener('DOMContentLoaded', function () {
+    Packlink.translations = {
+      default: {$lang['default']|escape:'htmlall':'UTF-8'|custom_htmlspecialchars_decode:3},
+      current: {$lang['current']|escape:'htmlall':'UTF-8'|custom_htmlspecialchars_decode:3}
+    };
 
-        let pageConfiguration = {json_encode($urls)|escape:'htmlall':'UTF-8'|htmlspecialchars_decode:3};
+    let pageConfiguration = {json_encode($urls)|escape:'htmlall':'UTF-8'|custom_htmlspecialchars_decode:3};
 
-        Packlink.state = new Packlink.StateController(
+    Packlink.state = new Packlink.StateController(
             {
-                baseResourcesUrl: "{$baseResourcesUrl|escape:'htmlall':'UTF-8'|htmlspecialchars_decode:3}",
-                stateUrl: "{$stateUrl|escape:'htmlall':'UTF-8'|htmlspecialchars_decode:3}",
-                pageConfiguration: pageConfiguration,
-                templates: {json_encode($templates)|escape:'htmlall':'UTF-8'|htmlspecialchars_decode:3}
+              baseResourcesUrl: "{$baseResourcesUrl|escape:'htmlall':'UTF-8'|custom_htmlspecialchars_decode:3}",
+              stateUrl: "{$stateUrl|escape:'htmlall':'UTF-8'|custom_htmlspecialchars_decode:3}",
+              pageConfiguration: pageConfiguration,
+              templates: {json_encode($templates)|escape:'htmlall':'UTF-8'|custom_htmlspecialchars_decode:3}
             }
-        );
+    );
 
-        Packlink.state.display();
+    Packlink.state.display();
 
-        hidePrestaSpinner();
-        calculateContentHeight(5);
-    });
+    hidePrestaSpinner();
+    calculateContentHeight(5);
+  });
 </script>

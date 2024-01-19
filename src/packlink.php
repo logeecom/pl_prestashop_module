@@ -200,10 +200,14 @@ class Packlink extends CarrierModule
      * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      * @throws \PrestaShopDatabaseException
      * @throws \PrestaShopException
+     * @throws SmartyException
      */
     public function hookDisplayAfterCarrier($params)
     {
         $configuration = $this->getShippingStepConfiguration($params);
+
+        // Register custom modifier function
+        $this->context->smarty->registerPlugin('modifier', 'custom_htmlspecialchars_decode', 'htmlspecialchars_decode');
 
         $this->context->smarty->assign(array(
             'configuration' => $configuration,
@@ -254,6 +258,9 @@ class Packlink extends CarrierModule
             Tools::getValue('id_order')
         );
 
+        // Register custom modifier function
+        $this->context->smarty->registerPlugin('modifier', 'custom_htmlspecialchars_decode', 'htmlspecialchars_decode');
+
         return $this->context->smarty->createTemplate(
             $this->getLocalPath() . self::PACKLINK_SHIPPING_CONTENT,
             $this->context->smarty
@@ -271,6 +278,7 @@ class Packlink extends CarrierModule
      * @throws \Logeecom\Infrastructure\ORM\Exceptions\RepositoryNotRegisteredException
      * @throws \PrestaShopDatabaseException
      * @throws \PrestaShopException
+     * @throws SmartyException
      */
     public function hookDisplayOrderConfirmation($params)
     {
@@ -291,6 +299,9 @@ class Packlink extends CarrierModule
             $configuration['orderId'] = $order->id;
             $configuration['addressId'] = $order->id_address_delivery;
             $configuration['cartId'] = $order->id_cart;
+
+            // Register custom modifier function
+            $this->context->smarty->registerPlugin('modifier', 'custom_htmlspecialchars_decode', 'htmlspecialchars_decode');
 
             $this->context->smarty->assign(
                 array('configuration' => $configuration)
@@ -627,6 +638,9 @@ class Packlink extends CarrierModule
 
         \Packlink\BusinessLogic\Configuration::setUICountryCode($this->context->language->iso_code);
 
+        // Register custom modifier function
+        $this->context->smarty->registerPlugin('modifier', 'custom_htmlspecialchars_decode', 'htmlspecialchars_decode');
+
         $this->context->smarty->assign(array(
             'lang' => $this->getTranslations(),
             'templates' => $this->getTemplates(),
@@ -637,6 +651,17 @@ class Packlink extends CarrierModule
         ));
 
         return $this->display(__FILE__, 'index.tpl');
+    }
+
+    /**
+     * @param $string
+     * @param $quote_style
+     * @param $charset
+     *
+     * @return string
+     */
+    private function custom_htmlspecialchars_decode($string, $quote_style = ENT_COMPAT, $charset = 'UTF-8') {
+        return htmlspecialchars_decode($string, $quote_style);
     }
 
     /**
